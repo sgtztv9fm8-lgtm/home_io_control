@@ -509,6 +509,13 @@ void IOHomeControlComponent::act_on_foreign_frame_(const std::string &device_id,
       this->schedule_status_poll_(device_id, REMOTE_ACTIVITY_STATUS_POLL_DELAY_MS);
       break;
     case ForeignAction::PUSH_PENDING:
+         if (device_id == "0F03D9" &&
+      controller == "0F03D8" &&
+      cmd == 0x20) {
+    ESP_LOGD(detail::TAG,
+             "Fast occupancy: preserving first poll");
+    break;
+  }
       ESP_LOGD(detail::TAG, "rx remote_activity device=%s controller=%s %s(0x%02X): poll pending, pushed out",
                device_id.c_str(), controller.c_str(), what, cmd);
       this->schedule_status_poll_(device_id, REMOTE_ACTIVITY_STATUS_POLL_DELAY_MS);
